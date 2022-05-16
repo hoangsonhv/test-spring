@@ -1,5 +1,6 @@
 package com.example.testspringboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,5 +19,6 @@ public class District {
     private int id;
     private String name;
     @OneToMany(mappedBy = "district")
+    @JsonBackReference
     private Set<Street> streets;
 }

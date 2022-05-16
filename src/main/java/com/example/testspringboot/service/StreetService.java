@@ -24,11 +24,11 @@ public class StreetService {
         return streetRepository.findAll();
     }
 
-    public List<Street> findAllByDistrict(Integer id, int page, int limit){
-        return streetRepository.searchByDistrict(id);
-    }
-
     public Street save(Street street) {
         return streetRepository.save(street);
+    }
+
+    public List<Street> findAllByDistrict(Integer id) {
+        return streetRepository.searchByDistrict(id);
     }
 }

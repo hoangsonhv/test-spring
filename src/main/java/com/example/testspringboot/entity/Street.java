@@ -1,5 +1,6 @@
 package com.example.testspringboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -19,8 +20,10 @@ public class Street {
     private int id;
     private String name;
     private String description;
+    private Integer district_id;
     @ManyToOne
-    @JoinColumn(name = "district_id")
+    @JsonManagedReference
+    @JoinColumn(name = "district_id", insertable = false ,updatable = false)
     private District district;
     @CreatedDate
     private LocalDateTime createdAt;

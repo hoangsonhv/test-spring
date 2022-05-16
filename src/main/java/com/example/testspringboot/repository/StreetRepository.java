@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface StreetRepository extends JpaRepository<Street, Integer> {
 
-    @Query(value = "SELECT * FROM streets a WHERE a.name LIKE %:name%",
+    @Query(value = "SELECT * FROM streets WHERE name LIKE %:name%",
             nativeQuery = true)
     List<Street> search(@Param("name") String name);
 
