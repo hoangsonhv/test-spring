@@ -13,7 +13,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "districts")
-public class District {
+public class District extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

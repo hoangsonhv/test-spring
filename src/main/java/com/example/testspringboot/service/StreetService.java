@@ -1,34 +1,50 @@
 package com.example.testspringboot.service;
 
+import com.example.testspringboot.entity.SearchCriteria;
 import com.example.testspringboot.entity.Street;
 import com.example.testspringboot.repository.StreetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import com.example.testspringboot.specifications.StreetSpecifications;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StreetService {
 
-    @Autowired
-    private StreetRepository streetRepository;
+    private final StreetRepository streetRepository;
 
-    public List<Street> findAll(String name){
-        return streetRepository.search(name);
+    public StreetService(StreetRepository streetRepository) {
+        this.streetRepository = streetRepository;
     }
 
-    public List<Street> findAllStreet(){
-        return streetRepository.findAll();
+    public List<Street> findAll(String keyword, Integer districtId) {
+        StreetSpecifications spec1 = new StreetSpecifications(new SearchCriteria("name", ":", keyword));
+        StreetSpecifications spec2 = new StreetSpecifications(new SearchCriteria("districtId", ":", districtId));
+        if (keyword.equals("") && districtId == 0) {
+            return streetRepository.findAll();
+        } else if (districtId == 0) {
+            return streetRepository.findAll(Specification.where(spec1));
+        } else if (keyword.equals("")) {
+            return streetRepository.findAll(Specification.where(spec2));
+        }
+        return streetRepository.findAll(Specification.where(spec1).and(spec2));
+    }
+
+    public Optional<Street> findById(Integer id) {
+        return streetRepository.findById(id);
     }
 
     public Street save(Street street) {
         return streetRepository.save(street);
     }
 
-    public List<Street> findAllByDistrict(Integer id) {
-        return streetRepository.searchByDistrict(id);
+    public List<Street> saveAll(List<Street> streets) {
+        return streetRepository.saveAll(streets);
+    }
+
+    public void deleteById(Integer id) {
+        streetRepository.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.testspringboot.entity;
 
+import com.example.testspringboot.enums.StreetStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,19 +14,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Entity
+@Builder
 @Table(name = "streets")
 public class Street {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String name;
     private String description;
-    private Integer district_id;
+    @Enumerated(EnumType.ORDINAL)
+    private StreetStatus status;
+    private Integer districtId;
     @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(name = "district_id", insertable = false ,updatable = false)
+    @JoinColumn(name = "districtId", insertable = false, updatable = false)
     private District district;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    private int status;
 }
